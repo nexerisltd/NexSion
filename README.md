@@ -2,17 +2,22 @@
 
 NexSion is a Chrome extension that turns your new tab into a polished, visual bookmark workspace. It combines boards, drag-and-drop organization, quick save, and a glassy dashboard experience in a single lightweight extension.
 
+## Downloads
+
+* [Download NexSion for Chrome](https://github.com/nexerisltd/NexSion/releases/download/v.2.0.1/NexSion-Chrome.zip)
+* [Download NexSion for Microsoft Edge](https://github.com/nexerisltd/NexSion/releases/download/v.2.0.1/NexSion-Edge.zip)
+
 ## Features
 
-- Create multiple pages and organize bookmarks into boards
-- Drag and drop links between boards
-- Quick-save the current tab with a keyboard shortcut
-- Search across links within a page or across all pages
-- Import existing Chrome bookmarks into a dedicated Imported page
-- Recently deleted links with restore support
-- Privacy mode to blur titles for screen sharing
-- Theme, wallpaper, and accent color customization
-- Google sign-in support for account display and future sync scenarios
+* Create multiple pages and organize bookmarks into boards
+* Drag and drop links between boards
+* Quick-save the current tab with a keyboard shortcut
+* Search across links within a page or across all pages
+* Import existing Chrome bookmarks into a dedicated Imported page
+* Recently deleted links with restore support
+* Privacy mode to blur titles for screen sharing
+* Theme, wallpaper, and accent color customization
+* Google sign-in support for account display and future sync scenarios
 
 ## Project structure
 
@@ -55,27 +60,27 @@ Important: do not commit or share your real client ID publicly. Keep it local or
 
 The extension uses:
 
-- `storage` for local data persistence
-- `bookmarks` for bookmark import
-- `tabs` for quick-save from the active tab
-- `identity` for Google sign-in
-- `notifications` for save confirmations
-- `favicon` for bookmark icons
-- `unlimitedStorage` for larger wallpaper uploads
+* `storage` for local data persistence
+* `bookmarks` for bookmark import
+* `tabs` for quick-save from the active tab
+* `identity` for Google sign-in
+* `notifications` for save confirmations
+* `favicon` for bookmark icons
+* `unlimitedStorage` for larger wallpaper uploads
 
 ## Usage
 
-- Use the top page pills to switch between pages
-- Add boards and links directly from the dashboard
-- Use the right-side dock for search, import, privacy, settings, and trash
-- Press `Ctrl+Shift+S` (or `Cmd+Shift+S` on Mac) to quickly save the current tab
+* Use the top page pills to switch between pages
+* Add boards and links directly from the dashboard
+* Use the right-side dock for search, import, privacy, settings, and trash
+* Press `Ctrl+Shift+S` (or `Cmd+Shift+S` on Mac) to quickly save the current tab
 
 ## Development notes
 
-- Data is currently stored locally in `chrome.storage.local`
-- The UI is rendered from `js/app.js`
-- Persistence and storage helpers live in `js/storage.js`
-- Authentication logic is handled in `js/auth.js`
+* Data is currently stored locally in `chrome.storage.local`
+* The UI is rendered from `js/app.js`
+* Persistence and storage helpers live in `js/storage.js`
+* Authentication logic is handled in `js/auth.js`
 
 ## Notes
 
@@ -84,5 +89,3 @@ This project is actively being developed. Future improvements may include true c
 ## Author
 
 Arabi Islam
-"# NexSion" 
-"# NexSion" 
