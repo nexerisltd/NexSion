@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>NexSion</title>
+<style>
+  body {
+    width: 260px;
+    margin: 0;
+    padding: 18px;
+    font-family: "Inter", system-ui, sans-serif;
+    background: #0b0f0d;
+    color: #eef3f0;
+  }
+  h1 {
+    font-size: 13px;
+    margin: 0 0 12px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #9fb0a8;
+    font-weight: 600;
+  }
+  button {
+    width: 100%;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 9px;
+    background: #34d399;
+    color: #06251a;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  button:active { transform: translateY(1px); }
+  p.status {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #9fb0a8;
+    min-height: 16px;
+  }
+</style>
+</head>
+<body>
+  <h1>NexSion</h1>
+  <button id="saveBtn">Save this tab</button>
+  <p class="status" id="status"></p>
+  <script src="popup.js"></script>
+</body>
+</html>

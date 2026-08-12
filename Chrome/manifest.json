@@ -1,0 +1,67 @@
+{
+  "manifest_version": 3,
+  "name": "NexSion",
+  "version": "2.0.1",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlha6g9xvue8wVWOvPu6JnVYqGSvja0+vDCzw3KJRKxdY9/H53EQ1D8UYF5zYNLhMyF1732pSl2rnoRfIY+z4OVlp9B7A6d6tojHzX4iRNBnYhO+agpGp2ax/McvwTb/tbCdV2f+83xrs2eR93fVY/MgXI2firq3c1140SSY4ytO4Yeo4ZGirxbLlPIfjaFJVqKHrbjMbkRAfVsnVb9h7E3kr5cAoeeVAHgJLYU1ELqDHAwXRD79ZAJuDyNhjIHMd+T3SdKWImZFiBgzLgwkpsJYzn2G4NEU6aPWsT9HdjmnyMwOdko17xNyOeQid88HZsL4R+p1IEwVuhiRDs1rYswIDAQAB",
+  "description": "NexSion turns your new tab into a visual, drag-and-drop bookmark workspace with quick save, smart search, and Google sign-in sync.",
+  "author": "Arabi Islam",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "chrome_url_overrides": {
+    "newtab": "newtab.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "storage",
+    "unlimitedStorage",
+    "bookmarks",
+    "tabs",
+    "identity",
+    "notifications",
+    "alarms",
+    "favicon",
+    "contextMenus"
+  ],
+  "host_permissions": [
+    "https://www.googleapis.com/*",
+    "http://*/*",
+    "https://*/*"
+  ],
+  "oauth2": {
+    "client_id": "248172709486-6hnpq1c6piv53gg0t0f75fb5pk2l7d3t.apps.googleusercontent.com",
+    "scopes": [
+      "openid",
+      "https://www.googleapis.com/auth/userinfo.email",
+      "https://www.googleapis.com/auth/userinfo.profile"
+    ]
+  },
+  "commands": {
+    "quick-save": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+S",
+        "mac": "Command+Shift+S"
+      },
+      "description": "Quick Save the current tab to NexSion"
+    },
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+K",
+        "mac": "Command+Shift+K"
+      }
+    }
+  },
+  "action": {
+    "default_title": "NexSion Quick Add",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  }
+}
