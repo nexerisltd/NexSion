@@ -1,1 +1,4 @@
-Release
+{
+  "version": "3.1.0",
+  "notes": "- Added a full self-update system (Settings > Updates)\n- Fixed particles/blob/silk-lines not actually hiding in Performance Mode\n- Performance Mode now also pauses live wallpaper and blocks changing wallpaper while it's on\n- Wallpaper and Performance Mode changes now auto-refresh the tab\n- Faster storage layer (fewer redundant reads on every refresh)\n- Fixed version number showing outdated info in Settings > Support"
+}
