@@ -1,0 +1,4 @@
+{
+  "version": "3.2.5",
+  "notes": "- Fixed 'Check for Update' sometimes showing an old version even after Update.json was updated on GitHub — raw.githubusercontent.com's CDN was serving a cached copy\n- Release notes and update checks now always fetch a fresh copy instead of a stale cached one"
+}
