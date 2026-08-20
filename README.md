@@ -2,6 +2,73 @@
 
 NexSion is a Chrome extension that turns your new tab into a polished, visual bookmark workspace. It combines boards, drag-and-drop organization, quick save, and a glassy dashboard experience in a single lightweight extension.
 
+## Screenshots
+
+### Home — Boards Dashboard
+Your new tab becomes a glassy, organized dashboard. Create boards, drop links, switch pages.
+
+![Home](assets/1__Home.png)
+
+### Wallpaper & Theme
+Choose from live/still wallpapers, switch Dark/Light style, or paste your own wallpaper URL (syncs across devices).
+
+![Wallpaper](assets/2__Wallpaper.png)
+
+### Search Boards
+Instantly search across the current page or all pages, with an exact-match toggle.
+
+![Search Boards](assets/3__Search_Boards.png)
+
+### Bulk Select
+Select multiple links at once to move, tag, or delete in one action.
+
+![Bulk Select](assets/4__Bulk_Select.png)
+
+### Widgets
+Toggle Clock, Weather, Quote of the Day, and Notepad widgets on your dashboard.
+
+![Widgets](assets/5__Widget.png)
+
+### Recently Deleted (Trash Bin)
+Nothing is lost immediately — restore deleted boards or links anytime.
+
+![Trash Bin](assets/6__Trash_Bin.png)
+
+### Privacy Mode
+Blur all titles instantly — perfect for screen sharing or streaming.
+
+![Privacy Mode](assets/7__Privacy_Mode.png)
+
+### General Settings
+Quick-save shortcut, link-opening behavior, performance mode, and a duplicate link finder.
+
+![General Settings](assets/8__General.png)
+
+### Account & Cloud Backup
+Sign in, back up boards to the cloud, export/import a local backup file, or reset everything.
+
+![Account](assets/9__Account.png)
+
+### Updates
+Link your unpacked extension folder once to enable automatic updates — no manual re-downloading.
+
+![Updates](assets/10__Updates.png)
+
+### New Board
+Choose between a Links board or a Checklist board, name it, and create.
+
+![New Board](assets/11__New_Board.png)
+
+### Add Link
+Save a URL with title, optional description, tags, and an optional reminder.
+
+![Add Link](assets/12__Add_Link.png)
+
+### New Page
+Organize your boards across multiple named pages.
+
+![New Page](assets/13__New_Page.png)
+
 ## Features
 
 - Create multiple pages and organize bookmarks into boards
@@ -16,7 +83,7 @@ NexSion is a Chrome extension that turns your new tab into a polished, visual bo
 
 ## Project structure
 
-```text
+```
 nexsion/
 ├── manifest.json
 ├── background.js
@@ -29,6 +96,8 @@ nexsion/
 │   ├── app.js
 │   ├── auth.js
 │   └── storage.js
+├── assets/
+│   └── (screenshots used in this README)
 └── icons/
 ```
 
@@ -84,5 +153,7 @@ This project is actively being developed. Future improvements may include true c
 ## Author
 
 Arabi Islam
-"# NexSion" 
-"# NexSion" 
+
+## License
+
+See [LICENSE.md](LICENSE.md).
