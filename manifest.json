@@ -5,7 +5,6 @@
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
   },
-  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlha6g9xvue8wVWOvPu6JnVYqGSvja0+vDCzw3KJRKxdY9/H53EQ1D8UYF5zYNLhMyF1732pSl2rnoRfIY+z4OVlp9B7A6d6tojHzX4iRNBnYhO+agpGp2ax/McvwTb/tbCdV2f+83xrs2eR93fVY/MgXI2firq3c1140SSY4ytO4Yeo4ZGirxbLlPIfjaFJVqKHrbjMbkRAfVsnVb9h7E3kr5cAoeeVAHgJLYU1ELqDHAwXRD79ZAJuDyNhjIHMd+T3SdKWImZFiBgzLgwkpsJYzn2G4NEU6aPWsT9HdjmnyMwOdko17xNyOeQid88HZsL4R+p1IEwVuhiRDs1rYswIDAQAB",
   "description": "NexSion turns your new tab into a visual, drag-and-drop bookmark workspace with quick save, smart search, and Google sign-in sync.",
   "author": "Arabi Islam",
   "icons": {
