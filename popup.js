@@ -1,0 +1,1 @@
+document.getElementById("saveBtn").addEventListener("click",async()=>{const e=document.getElementById("status");e.textContent="Saving…",chrome.runtime.sendMessage({type:"quick-save"},()=>{e.textContent="Saved ✓",setTimeout(()=>window.close(),700)})}),document.getElementById("openAppBtn").addEventListener("click",()=>{chrome.tabs.create({url:"chrome://newtab"}),window.close()});

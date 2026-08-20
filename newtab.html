@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>NexSion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- Animated silk-flow background -->
+  <div class="bg-canvas" id="bgCanvas">
+    <img class="bg-wallpaper-media" id="bgWallpaperImg" alt="" />
+    <video class="bg-wallpaper-media" id="bgWallpaperVideo" autoplay loop muted playsinline></video>
+    <div class="blob blob1"></div>
+    <div class="blob blob2"></div>
+    <div class="blob blob3"></div>
+    <div class="silk-lines"></div>
+    <div class="particles" id="particles"></div>
+    <div class="vignette"></div>
+  </div>
+
+  <!-- Mandatory sign-in gate — blocks the app entirely until signed in -->
+  <div class="auth-gate hidden" id="authGate">
+    <div class="auth-gate-card">
+      <img src="icons/icon128.png" class="auth-gate-logo" alt="NexSion" />
+      <h2>Sign in to continue</h2>
+      <p class="muted">NexSion requires a Google account so your boards always belong to you — and only you.</p>
+      <button class="btn btn-primary" id="gateSignInBtn">Sign in with Google</button>
+      <p class="muted auth-gate-error hidden" id="authGateError"></p>
+    </div>
+  </div>
+
+  <div class="app" id="app">
+
+    <!-- Pages pill bar -->
+    <header class="pages-bar">
+      <div class="brand">
+        <img src="icons/icon48.png" class="brand-logo" alt="NexSion" />
+        <span class="brand-name">NexSion</span>
+      </div>
+      <div class="pages-pills" id="pagesList"></div>
+      <button class="pill pill-add" id="addPageBtn">+</button>
+      <button class="pill pill-add" id="importPageBtn" title="Import a shared page">⇩</button>
+    </header>
+
+    <!-- Boards workspace -->
+    <main class="workspace" id="workspace">
+      <div class="widgets-bar hidden" id="widgetsBar"></div>
+      <div class="board-columns" id="boardsRow"></div>
+    </main>
+
+
+    <!-- Floating vertical dock, right side -->
+    <div class="dock">
+      <button class="dock-btn" id="dockSearch" title="Search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+      <button class="dock-btn" id="dockImport" title="Import Chrome bookmarks">
+        <svg viewBox="0 0 24 24"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4 20h16"/></svg>
+      </button>
+      <button class="dock-btn" id="dockExtensions" title="Manage extensions">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+      </button>
+      <button class="dock-btn" id="dockSelectMode" title="Select multiple">
+        <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+      </button>
+      <button class="dock-btn" id="dockWidgets" title="Widgets">
+        <svg viewBox="0 0 24 24"><path d="M10 3h4a1 1 0 011 1v2.1a2.1 2.1 0 100 4.2V12a1 1 0 01-1 1h-3.1a2.1 2.1 0 10-4.2 0H4a1 1 0 01-1-1V9a1 1 0 011-1h2.1a2.1 2.1 0 100-4.2V3a1 1 0 011-1z" transform="translate(0 2)"/></svg>
+      </button>
+      <button class="dock-btn" id="dockTrash" title="Recently deleted">
+        <svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6 7l1 13h10l1-13"/></svg>
+      </button>
+      <button class="dock-btn" id="dockPrivacy" title="Toggle privacy blur">
+        <svg viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+      </button>
+      <button class="dock-btn dock-settings" id="dockSettings" title="Settings & account">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.9l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.9-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1-1.6 1.7 1.7 0 00-1.9.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.9 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.6-1 1.7 1.7 0 00-.3-1.9l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.9.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.9-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.9V9a1.7 1.7 0 001.5 1h.1a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z"/></svg>
+      </button>
+    </div>
+
+    <!-- Search overlay -->
+
+    <div class="modal-backdrop hidden" id="cmdPaletteModal">
+      <div class="modal cmd-palette-modal">
+        <input id="cmdPaletteInput" class="field-input" type="text" placeholder="Jump to a board or link…" autocomplete="off" />
+        <div class="cmd-palette-results" id="cmdPaletteResults"></div>
+      </div>
+    </div>
+
+    <div class="modal-backdrop hidden" id="searchModal">
+      <div class="modal search-modal">
+        <div class="search-row">
+          <input id="searchInput" type="text" placeholder="Search your boards…" autocomplete="off" />
+          <select id="searchScope">
+            <option value="page">This page</option>
+            <option value="all">All pages</option>
+          </select>
+          <label class="exact-toggle">
+            <input type="checkbox" id="exactMatch" />
+            <span>Exact</span>
+          </label>
+          <button class="modal-close" id="closeSearchModal">×</button>
+        </div>
+        <div class="search-results" id="searchResults"></div>
+      </div>
+    </div>
+
+    <!-- Settings overlay -->
+    <div class="modal-backdrop hidden" id="settingsModal">
+      <div class="modal settings-modal-tabbed">
+        <aside class="settings-sidebar">
+          <h3 class="settings-sidebar-title">Settings</h3>
+          <button class="settings-tab-btn active" data-tab="general">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.9l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.9-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1-1.6 1.7 1.7 0 00-1.9.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.9 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.6-1 1.7 1.7 0 00-.3-1.9l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.9.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.9-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.9V9a1.7 1.7 0 001.5 1h.1a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z"/></svg>
+            General
+          </button>
+          <button class="settings-tab-btn" data-tab="account">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+            Account
+          </button>
+          <button class="settings-tab-btn" data-tab="language">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15 15 0 010 20 15 15 0 010-20z"/></svg>
+            Language
+          </button>
+          <button class="settings-tab-btn" data-tab="support">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 015.8 1c0 2-3 2-3 4"/><path d="M12 17h.01"/></svg>
+            Support
+          </button>
+          <button class="settings-tab-btn" data-tab="updates">
+            <svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 11-3-6.7"/><path d="M21 3v6h-6"/></svg>
+            Updates
+            <span class="update-dot hidden" id="updateAvailableDot"></span>
+          </button>
+        </aside>
+
+        <div class="settings-content">
+          <div class="modal-head">
+            <span id="settingsPanelTitle">General Settings</span>
+            <button class="modal-close" id="closeSettingsModal">×</button>
+          </div>
+
+          <div class="settings-panel" data-panel="general">
+            <div class="settings-section">
+              <h4>Quick Save</h4>
+              <p class="muted">Shortcut: <code>Ctrl+Shift+S</code> (<code>Cmd+Shift+S</code> on Mac) — change anytime at
+                <code>chrome://extensions/shortcuts</code>.</p>
+            </div>
+            <div class="settings-section">
+              <h4>Browsing</h4>
+              <label class="toggle-row">
+                <span>Open links in a new tab</span>
+                <span class="switch">
+                  <input type="checkbox" id="openInNewTabToggle" />
+                  <span class="switch-track"></span>
+                </span>
+              </label>
+            </div>
+            <div class="settings-section">
+              <h4>Performance</h4>
+              <label class="toggle-row">
+                <span>Performance Mode (More Quick &amp; Smooth)</span>
+                <span class="switch">
+                  <input type="checkbox" id="performanceModeToggle" />
+                  <span class="switch-track"></span>
+                </span>
+              </label>
+            </div>
+            <div class="settings-section">
+              <h4>Tools</h4>
+              <button class="btn btn-cancel" id="findDuplicatesBtn">Find Duplicate Links</button>
+            </div>
+          </div>
+
+          <div class="settings-panel hidden" data-panel="account">
+            <div class="settings-section" id="userBox">
+              <button class="btn btn-primary" id="signInBtn">Sign in with Google</button>
+              <p class="muted">Sign in to back up your boards to the cloud and sync them across devices.</p>
+              <div class="user-chip hidden" id="userChip">
+                <img id="userAvatar" class="avatar" src="" alt="" />
+                <span id="userName"></span>
+                <button class="btn-link" id="signOutBtn">Sign out</button>
+              </div>
+            </div>
+            <div class="settings-section">
+              <h4>Cloud Backup</h4>
+              <p class="muted">Push or pull your data directly to/from your signed-in cloud account.</p>
+              <div class="settings-action-row">
+                <button class="btn btn-primary" id="cloudPushBtn">Backup to Cloud Now</button>
+                <button class="btn btn-cancel" id="cloudPullBtn">Restore from Cloud</button>
+              </div>
+            </div>
+            <div class="settings-section">
+              <h4>Device File</h4>
+              <p class="muted">Download a full backup file, or restore one — useful for moving to a new device without signing in.</p>
+              <div class="settings-action-row">
+                <button class="btn btn-cancel" id="exportDataBtn">Export Data</button>
+                <button class="btn btn-cancel" id="importDataBtn">Import Data</button>
+              </div>
+              <input type="file" id="importDataFileInput" accept="application/json" class="hidden" />
+            </div>
+            <div class="settings-section settings-danger-zone">
+              <h4>Danger Zone</h4>
+              <button class="btn btn-danger" id="deleteAccountBtn">Delete Cloud Account</button>
+              <p class="muted">Permanently deletes your cloud backup, your Google-linked account, AND your boards/links on this device. This can't be undone.</p>
+            </div>
+          </div>
+
+          <div class="settings-panel hidden" data-panel="language">
+            <div class="settings-section">
+              <h4>Language</h4>
+              <p class="muted">English (default)</p>
+              <p class="muted">More languages are coming soon.</p>
+            </div>
+          </div>
+
+          <div class="settings-panel hidden" data-panel="support">
+            <div class="settings-section">
+              <h4>About</h4>
+              <p class="muted">NexSion — visual bookmark workspace.<br/>Developed by <strong>Arabi Islam</strong>.</p>
+              <p class="muted" style="margin-top:8px;">Version <span id="aboutVersionText">—</span></p>
+            </div>
+            <div class="settings-section">
+              <h4>Know someone who'd like this?</h4>
+              <p class="muted">Share NexSion with a friend — no store link needed, just a shareable install guide.</p>
+              <div class="settings-action-row">
+                <button class="btn btn-primary" id="inviteFriendsBtn">Invite Friends</button>
+              </div>
+            </div>
+            <div class="settings-section">
+              <h4>New here?</h4>
+              <p class="muted">Replay the quick welcome tour of NexSion's main features.</p>
+              <div class="settings-action-row">
+                <button class="btn btn-cancel" id="restartTourBtn">Restart Tour</button>
+              </div>
+            </div>
+            <div class="settings-section">
+              <h4>Found an issue?</h4>
+              <p class="muted">Use the extension's feedback option in the Chrome Web Store listing, or reach out to the developer directly.</p>
+            </div>
+          </div>
+
+          <div class="settings-panel hidden" data-panel="updates">
+            <div class="settings-section">
+              <h4>This Device</h4>
+              <p class="muted">You're on version <strong id="updatesCurrentVersion">—</strong>.</p>
+              <p class="muted" id="updateFolderStatus">Checking update folder…</p>
+              <div class="settings-action-row">
+                <button class="btn btn-cancel" id="linkUpdateFolderBtn">Link Update Folder</button>
+              </div>
+              <p class="muted" style="margin-top:6px;">
+                One-time setup: point NexSion to the exact folder you used for "Load unpacked". After that,
+                updates install automatically — no re-downloading or manual reinstalling.
+              </p>
+            </div>
+            <div class="settings-section">
+              <h4>Check for Updates</h4>
+              <div class="settings-action-row">
+                <button class="btn btn-primary" id="checkUpdateBtn">Check for Update</button>
+                <button class="btn btn-cancel" id="whatsNewBtn">What's New?</button>
+              </div>
+              <div id="updateResultBox" class="update-result-box hidden"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recently deleted overlay -->
+    <div class="modal-backdrop hidden" id="trashModal">
+      <div class="modal trash-modal">
+        <div class="modal-head">
+          <span>Recently Deleted</span>
+          <button class="modal-close" id="closeTrashModal">×</button>
+        </div>
+        <div class="trash-list" id="trashList"></div>
+      </div>
+    </div>
+
+    <!-- Widgets toggle overlay -->
+    <div class="modal-backdrop hidden" id="duplicatesModal">
+      <div class="modal duplicates-modal">
+        <div class="modal-head">
+          <span>Duplicate Links</span>
+          <button class="modal-close" id="closeDuplicatesModal">×</button>
+        </div>
+        <div class="duplicates-list" id="duplicatesList"></div>
+      </div>
+    </div>
+
+    <div class="modal-backdrop hidden" id="widgetsModal">
+      <div class="modal widgets-toggle-modal">
+        <div class="modal-head">
+          <span>Widgets</span>
+          <button class="modal-close" id="closeWidgetsModal">×</button>
+        </div>
+        <label class="toggle-row">
+          <span>🕐 Clock</span>
+          <span class="switch"><input type="checkbox" id="widgetToggleClock" /><span class="switch-track"></span></span>
+        </label>
+        <label class="toggle-row">
+          <span>☀️ Weather</span>
+          <span class="switch"><input type="checkbox" id="widgetToggleWeather" /><span class="switch-track"></span></span>
+        </label>
+        <label class="toggle-row">
+          <span>💬 Quote of the Day</span>
+          <span class="switch"><input type="checkbox" id="widgetToggleQuote" /><span class="switch-track"></span></span>
+        </label>
+        <label class="toggle-row">
+          <span>📝 Notepad</span>
+          <span class="switch"><input type="checkbox" id="widgetToggleNotepad" /><span class="switch-track"></span></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Add Page overlay -->
+    <div class="modal-backdrop hidden" id="addPageModal">
+      <div class="modal add-page-modal">
+        <div class="modal-head">
+          <span>New Page</span>
+          <button class="modal-close" id="closeAddPageModal">×</button>
+        </div>
+        <label class="field-label">Page name *</label>
+        <input id="newPageNameInput" class="field-input" type="text" placeholder="Untitled Page" autocomplete="off" />
+        <div class="modal-actions">
+          <button class="btn btn-cancel" id="addPageCancelBtn">Cancel</button>
+          <button class="btn btn-primary" id="addPageConfirmBtn">Create Page</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- New Board overlay -->
+    <div class="modal-backdrop hidden" id="addBoardModal">
+      <div class="modal add-board-modal">
+        <div class="modal-head">
+          <span>New Board</span>
+          <button class="modal-close" id="closeAddBoardModal">×</button>
+        </div>
+        <label class="field-label">Board type</label>
+        <div class="add-board-type-row">
+          <button type="button" class="add-board-type-btn active" data-type="links">🔗 Links</button>
+          <button type="button" class="add-board-type-btn" data-type="checklist">✅ Checklist</button>
+        </div>
+        <label class="field-label">Board name *</label>
+        <input id="newBoardNameInput" class="field-input" type="text" placeholder="Untitled Board" autocomplete="off" />
+        <div class="modal-actions">
+          <button class="btn btn-cancel" id="addBoardCancelBtn">Cancel</button>
+          <button class="btn btn-primary" id="addBoardConfirmBtn">Create Board</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add / Edit Bookmark overlay -->
+    <div class="modal-backdrop hidden" id="bookmarkModal">
+      <div class="modal bookmark-modal">
+        <div class="modal-head">
+          <span id="bookmarkModalTitle">Add Link</span>
+          <button class="modal-close" id="closeBookmarkModal">×</button>
+        </div>
+
+        <label class="field-label">URL *</label>
+        <input id="bmUrl" class="field-input" type="text" placeholder="https://example.com" autocomplete="off" />
+
+        <div class="field-label-row">
+          <label class="field-label">Title *</label>
+          <button class="btn btn-outline-accent hidden" id="bmFetchTitleBtn">Fetch Title</button>
+        </div>
+        <input id="bmTitle" class="field-input" type="text" placeholder="Link title" autocomplete="off" />
+
+        <label class="field-label">Description</label>
+        <textarea id="bmDescription" class="field-textarea" maxlength="2000" placeholder="Optional description (shown below title)"></textarea>
+        <label class="field-label">Tags (comma separated)</label>
+        <input id="bmTags" class="field-input" type="text" placeholder="work, reference, read-later" />
+        <div class="char-count"><span id="bmDescCount">0</span>/2000</div>
+
+        <label class="field-label">Remind me (optional)</label>
+        <div class="reminder-row">
+          <input id="bmRemindAt" class="field-input" type="datetime-local" />
+          <button class="btn btn-cancel hidden" id="bmClearReminder" title="Clear reminder">×</button>
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn btn-cancel" id="bmCancelBtn">Cancel</button>
+          <button class="btn btn-primary" id="bmSaveBtn">Add Link</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Generic confirm overlay -->
+    <div class="modal-backdrop hidden" id="confirmModal">
+      <div class="modal confirm-modal">
+        <p class="confirm-message" id="confirmMessage">Are you sure?</p>
+        <div class="modal-actions">
+          <button class="btn btn-cancel" id="confirmNoBtn">Cancel</button>
+          <button class="btn btn-danger" id="confirmYesBtn">Delete</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Style / Wallpaper overlay -->
+    <div class="modal-backdrop hidden" id="styleModal">
+      <div class="modal style-modal">
+        <div class="modal-head">
+          <span>Style</span>
+          <button class="modal-close" id="closeStyleModal">×</button>
+        </div>
+
+        <div class="theme-toggle-row">
+          <button class="theme-toggle-btn" id="themeDarkBtn">Dark</button>
+          <button class="theme-toggle-btn" id="themeLightBtn">Light</button>
+        </div>
+
+        <p class="muted hidden" id="wallpaperPerfNotice" style="margin:2px 0 10px;">
+          ⚡ Performance Mode is on, so your wallpaper is paused on the default background. Turn it
+          off in Settings to change or preview wallpapers again.
+        </p>
+        <div id="wallpaperPickerSection">
+        <div class="wallpaper-section-head">
+          <span>Live Wallpapers</span>
+          <span class="wallpaper-count-badge" id="wallpaperCountLive">6</span>
+        </div>
+        <div class="wallpaper-grid" id="wallpaperGridLive"></div>
+
+        <div class="wallpaper-section-head" style="margin-top:14px;">
+          <span>Still Wallpapers</span>
+          <span class="wallpaper-count-badge" id="wallpaperCountStill">6</span>
+        </div>
+        <div class="wallpaper-grid" id="wallpaperGridStill"></div>
+
+        <div class="style-actions">
+          <button class="btn btn-cancel" id="uploadWallpaperBtn">Upload Wallpaper</button>
+          <button class="btn btn-cancel" id="moreWallpapersBtn">More Wallpapers</button>
+        </div>
+        <input type="file" id="wallpaperFileInput" accept="image/*,video/*" class="hidden" />
+        <div class="wallpaper-section-head" style="margin-top:16px;">
+          <span>Wallpaper URL (syncs across devices, free)</span>
+        </div>
+        <div class="wallpaper-url-row">
+          <input type="text" id="wallpaperUrlInput" class="field-input" placeholder="https://example.com/your-image-or-video.jpg" />
+          <button class="btn btn-primary" id="wallpaperUrlSaveBtn">Use</button>
+        </div>
+        <p class="muted" style="margin-top:6px;">
+          Paste a link to an image or video you already have hosted somewhere (Imgur, Google Drive
+          share link, your own site, etc). It's just a short link, so it fits easily in the free
+          sync storage and follows you to other devices when you sign in there.
+        </p>
+        </div>
+        <div class="wallpaper-section-head" style="margin-top:16px;">
+          <span>Custom Colors</span>
+        </div>
+        <div class="color-pick-row">
+          <label class="color-pick">
+            <input type="color" id="primaryColorPicker" />
+            <span>Primary Color</span>
+          </label>
+          <label class="color-pick">
+            <input type="color" id="textColorPicker" />
+            <span>Text Color</span>
+          </label>
+          <button class="btn btn-cancel" id="resetColorsBtn">Reset</button>
+        </div>
+        <div class="wallpaper-section-head" style="margin-top:16px;">
+          <span>Chrome Browser Theme</span>
+        </div>
+        <div class="chrome-theme-suggest" id="chromeThemeSuggest">
+          <div class="chrome-theme-suggest-swatch" id="chromeThemeSuggestSwatch"></div>
+          <div class="chrome-theme-suggest-text">
+            <div id="chromeThemeSuggestName">Set a wallpaper to get a matching suggestion</div>
+            <p class="muted" style="margin:2px 0 0;">Chrome doesn't let extensions change the browser's own colors automatically — this opens the Chrome Web Store filtered to themes matching your wallpaper's mood, so you can pick one in a click.</p>
+          </div>
+          <a class="btn btn-primary" id="chromeThemeSuggestBtn" href="#" target="_blank" rel="noopener">Browse</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Wallpaper preview overlay -->
+    <div class="modal-backdrop hidden" id="wallpaperPreviewModal">
+      <div class="modal wallpaper-preview-box">
+        <div class="modal-head">
+          <span id="wallpaperPreviewName">Preview</span>
+          <button class="modal-close" id="closeWallpaperPreviewModal">×</button>
+        </div>
+        <div class="wallpaper-preview-media" id="wallpaperPreviewMedia"></div>
+        <div class="wallpaper-download-progress hidden" id="wallpaperDownloadProgress">
+          <div class="wallpaper-download-bar" id="wallpaperDownloadBar"></div>
+        </div>
+        <p class="muted hidden" id="wallpaperDownloadLabel" style="margin:0 0 10px;">Downloading… 0%</p>
+        <div class="modal-actions">
+          <button class="btn btn-cancel" id="wallpaperPreviewCancelBtn">Cancel</button>
+          <button class="btn btn-primary" id="wallpaperPreviewApplyBtn">Set as Wallpaper</button>
+        </div>
+      </div>
+    </div>
+
+    <button class="bg-shuffle-btn" id="styleBtn" title="Style & wallpaper">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+    </button>
+
+    <div class="toast" id="toast"></div>
+  </div>
+
+  <template id="boardTemplate">
+    <section class="board" draggable="true">
+      <header class="board-head">
+        <input class="board-title" type="text" />
+        <div class="board-head-actions">
+          <button class="board-icon-btn board-add-item-btn" title="Add link">
+            <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 007.07 0l2-2a5 5 0 00-7.07-7.07l-1 1"/><path d="M14 11a5 5 0 00-7.07 0l-2 2a5 5 0 007.07 7.07l1-1"/></svg>
+          </button>
+          <div class="board-menu-wrap">
+            <button class="board-menu-btn">⋯</button>
+            <div class="board-menu-dropdown hidden">
+              <button class="board-menu-item board-menu-rename">Rename</button>
+              <button class="board-menu-item board-menu-share">Share Board</button>
+              <button class="board-menu-item board-menu-delete">Delete board</button>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="board-items"></div>
+    </section>
+  </template>
+
+  <template id="itemTemplate">
+    <a class="item" draggable="true" target="_blank" rel="noopener">
+      <span class="item-select-check"><input type="checkbox" class="item-select-checkbox" tabindex="-1" /></span>
+      <img class="item-favicon" />
+      <span class="item-title"></span>
+      <button class="item-edit" title="Edit">✎</button>
+      <button class="item-delete" title="Remove">×</button>
+    </a>
+  </template>
+
+  <!-- Bulk-select floating action bar -->
+  <div class="bulk-bar hidden" id="bulkBar">
+    <span id="bulkCount">0 selected</span>
+    <button class="btn btn-cancel" id="bulkMoveBtn">Move to…</button>
+    <button class="btn btn-danger" id="bulkDeleteBtn">Delete</button>
+    <button class="btn-link" id="bulkCancelBtn">Cancel</button>
+  </div>
+  <div class="modal-backdrop hidden" id="bulkMoveModal">
+    <div class="modal" style="width:320px;">
+      <div class="modal-head"><span>Move to board</span><button class="modal-close" id="closeBulkMoveModal">×</button></div>
+      <div id="bulkMoveBoardList" class="bulk-move-board-list"></div>
+    </div>
+  </div>
+
+  <!-- Share Page overlay -->
+  <div class="modal-backdrop hidden" id="shareCodeModal">
+    <div class="modal" style="width:460px;">
+      <div class="modal-head"><span>Share "<span id="shareCodePageName"></span>"</span><button class="modal-close" id="closeShareCodeModal">×</button></div>
+      <p class="muted" style="margin:0 0 8px;">Anyone with NexSion installed can paste this code into "Import a shared page" to get a copy of this page's boards and links. It's compressed and checksummed, so a corrupted or partial paste is caught immediately instead of silently failing.</p>
+      <textarea id="shareCodeBox" class="field-input" readonly style="height:120px; resize:vertical; font-family:monospace; font-size:11px;"></textarea>
+      <div class="modal-actions" style="justify-content:flex-start; flex-wrap:wrap; gap:8px;">
+        <button class="btn btn-primary" id="copyShareCodeBtn">Copy Code</button>
+        <button class="btn btn-cancel" id="shareCodeWhatsAppBtn">Share via WhatsApp</button>
+        <button class="btn btn-cancel" id="shareCodeTelegramBtn">Share via Telegram</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Import Page overlay -->
+  <div class="modal-backdrop hidden" id="importCodeModal">
+    <div class="modal" style="width:460px;">
+      <div class="modal-head"><span>Import a Shared Page</span><button class="modal-close" id="closeImportCodeModal">×</button></div>
+      <label class="field-label">Paste the code someone shared with you</label>
+      <textarea id="importCodeInput" class="field-input" style="height:120px; resize:vertical; font-family:monospace; font-size:11px;" placeholder="Paste NexSion share code here…"></textarea>
+      <div class="modal-actions">
+        <button class="btn btn-cancel" id="importCodeCancelBtn">Cancel</button>
+        <button class="btn btn-primary" id="importCodeConfirmBtn">Import</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Invite Friends overlay -->
+  <div class="modal-backdrop hidden" id="inviteModal">
+    <div class="modal" style="width:420px;">
+      <div class="modal-head"><span>Invite Friends</span><button class="modal-close" id="closeInviteModal">×</button></div>
+      <p class="muted" style="margin:0 0 12px;">NexSion isn't on the Chrome Web Store yet, so share this quick install guide instead — it links straight to the latest release.</p>
+      <div class="modal-actions" style="justify-content:flex-start; flex-wrap:wrap; gap:8px;">
+        <button class="btn btn-primary" id="inviteWhatsAppBtn">Share via WhatsApp</button>
+        <button class="btn btn-cancel" id="inviteTelegramBtn">Share via Telegram</button>
+        <button class="btn btn-cancel" id="inviteCopyLinkBtn">Copy Message</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Changelog overlay (auto-shown right after a self-update) -->
+  <div class="modal-backdrop hidden" id="changelogModal">
+    <div class="modal" style="width:460px;">
+      <div class="modal-head"><span id="changelogTitle">🎉 What's New</span><button class="modal-close" id="closeChangelogModal">×</button></div>
+      <div id="changelogNotes" class="update-notes" style="margin-bottom:14px;"></div>
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="changelogGotItBtn">Got it</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Onboarding tour overlay -->
+  <div class="modal-backdrop hidden" id="onboardingModal">
+    <div class="modal" style="width:420px;">
+      <div class="modal-head"><span id="onboardingStepTitle"></span><button class="modal-close" id="closeOnboardingModal">×</button></div>
+      <p class="muted" id="onboardingStepText" style="min-height:60px;"></p>
+      <div class="modal-actions" style="justify-content:space-between;">
+        <span class="muted" id="onboardingStepCounter" style="font-size:12px;"></span>
+        <div style="display:flex; gap:8px;">
+          <button class="btn btn-cancel" id="onboardingSkipBtn">Skip</button>
+          <button class="btn btn-primary" id="onboardingNextBtn">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/cloudSync.js"></script>
+  <script src="js/wallpaperDb.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/updater.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

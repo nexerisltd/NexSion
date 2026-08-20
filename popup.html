@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>NexSion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0c1310;
+    --card: rgba(24, 32, 28, 0.62);
+    --card-border: rgba(255, 255, 255, 0.10);
+    --ink: #eef3f0;
+    --muted: #9fb0a8;
+    --accent: #3b9eff;
+  }
+  * { box-sizing: border-box; }
+  body {
+    width: 280px;
+    margin: 0;
+    padding: 18px;
+    font-family: "Inter", system-ui, sans-serif;
+    background: radial-gradient(120% 100% at 50% 0%, #101a16 0%, var(--bg) 60%);
+    color: var(--ink);
+  }
+  .popup-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .popup-brand img { width: 22px; height: 22px; border-radius: 6px; }
+  .popup-brand span {
+    font-family: "Sora", sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+  }
+  .popup-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    backdrop-filter: blur(10px);
+    padding: 14px;
+    margin-bottom: 10px;
+  }
+  button {
+    width: 100%;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 10px;
+    background: var(--accent);
+    color: #04101c;
+    font-size: 13.5px;
+    font-family: "Inter", sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: filter 0.15s;
+  }
+  button:hover { filter: brightness(1.08); }
+  button:active { transform: translateY(1px); }
+  button.secondary {
+    background: rgba(255,255,255,0.06);
+    color: var(--ink);
+    border: 1px solid var(--card-border);
+    margin-top: 8px;
+  }
+  button svg { width: 15px; height: 15px; flex-shrink: 0; }
+  p.status {
+    margin: 10px 0 0;
+    font-size: 12px;
+    color: var(--muted);
+    min-height: 16px;
+    text-align: center;
+  }
+  .popup-hint {
+    font-size: 11px;
+    color: var(--muted);
+    margin: 0;
+    line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+  <div class="popup-brand">
+    <img src="icons/icon48.png" alt="" />
+    <span>NexSion</span>
+  </div>
+  <div class="popup-card">
+    <button id="saveBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+      Save this tab
+    </button>
+    <button id="openAppBtn" class="secondary">Open NexSion</button>
+    <p class="status" id="status"></p>
+  </div>
+  <p class="popup-hint">Shortcut: <b>Ctrl+Shift+S</b> saves the active tab without opening this popup.</p>
+  <script src="popup.js"></script>
+</body>
+</html>
